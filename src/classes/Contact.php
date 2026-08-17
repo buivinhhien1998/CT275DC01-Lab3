@@ -9,11 +9,11 @@ class Contact
   private ?PDO $db;
 
   public int $id = -1;
-  public $name;
-  public $phone;
-  public $notes;
-  public $created_at;
-  public $updated_at;
+  public String $name;
+  public String $phone;
+  public String $notes;
+  public String $created_at;
+  public String $updated_at;
 
   public function __construct(?PDO $pdo)
   {
@@ -51,5 +51,28 @@ class Contact
     }
 
     return $errors;
+    
   }
+  public function all(): array
+    {
+    $contacts = [];
+    $statement = $this ->db ->prepare('select * from contacts');
+    $statement ->execute();
+    while ($row = $statement ->fetch()) {
+    $contact = new Contact($this ->db);
+    $contact ->fillFromDbRow($row);
+    $contacts[] = $contact;
+    }
+    return $contacts;
+    }
+    protected function fillFromDbRow(array $row): Contact
+    {
+    $this ->id = $row['id'];
+    $this ->name = $row['name'];
+    $this ->phone = $row['phone'];
+    $this ->notes = $row['notes'];
+    $this ->created_at = $row['created_at'];
+    $this ->updated_at = $row['updated_at'];
+    return $this;
+    }
 }
