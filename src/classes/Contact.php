@@ -112,20 +112,30 @@ class Contact
       'id' => $this->id
       ]);
       } else {
-      $statement = $this->db->prepare(
-      'insert into contacts (name, phone, notes, created_at, updated_at)
-      values (:name, :phone, :notes, now(), now())'
+        $statement = $this->db->prepare(
+        'insert into contacts (name, phone, notes, created_at, updated_at)
+        values (:name, :phone, :notes, now(), now())'
       );
-      $result = $statement->execute([
-        'name' => $this->name,
-      'phone' => $this->phone,
-      'notes' => $this->notes
+        $result = $statement->execute([
+          'name' => $this->name,
+        'phone' => $this->phone,
+        'notes' => $this->notes
       ]);
       if ($result) {
       $this->id = $this->db->lastInsertId();
+        }
+        }
+        return $result;
       }
-      }
-      return $result;
-      }
+    public function find(int $id): ?Contact
+        {
+        $statement = $this->db->prepare('select * from contacts where id = :id');
+        $statement->execute(['id' => $id]);
+        if ($row = $statement->fetch()) {
+        $this->fillFromDbRow($row);
+        return $this;
+        }
+        return null;
+        }
 
 }

@@ -56,12 +56,13 @@ include_once __DIR__ . '/../src/partials/header.php';
             <td><?=html_escape($contact ->phone)?> </td>
             <td><?=html_escape(date("d-m-Y", strtotime($contact ->created_at)))?> </td>
             <td><?=html_escape($contact ->notes)?> </td>
-            <td class="d-flex justify-content-center">
-            <a href="<?='edit.php'?>"
-            class="btn btn-xs btn-warning">
-            <i alt="Edit" class="fa fa-pencil"> </i> Edit </a>
-            <a href="#" class="btn btn-xs btn-danger ms-1">
-            <i alt="Delete" class="fa fa-trash"> </i> Delete </a>
+                      <td class="d-flex justify-content-center">
+                <a href="<?= '/edit.php?id=' . $contact->id ?>"
+                class="btn btn-xs btn-warning">
+                <i alt="Edit" class="fa fa-pencil"> </i> Edit </a>
+                <a href="#" class="btn btn-xs btn-danger ms-1">
+                <i alt="Delete" class="fa fa-trash"> </i> Delete </a>
+            </td>
             </td>
             </tr>
             <?php endforeach ?>
